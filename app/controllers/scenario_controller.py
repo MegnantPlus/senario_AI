@@ -45,3 +45,16 @@ def get_scenarios():
         return jsonify(output), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@scenario_bp.route('/api/scenario/<id>', methods=['DELETE'])
+def delete_scenario(id):
+    try:
+        # Xoá kịch bản theo ID
+        result = mongo.db.scenarios.delete_one({'_id': ObjectId(id)})
+        
+        if result.deleted_count == 1:
+            return jsonify({'message': 'Scenario deleted successfully'}), 200
+        else:
+            return jsonify({'error': 'Scenario not found'}), 404
+    except Exception as e:
+        return jsonify({'error': 'Invalid ID or database error: ' + str(e)}), 500
