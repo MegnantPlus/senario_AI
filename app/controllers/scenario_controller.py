@@ -27,3 +27,21 @@ def create_scenario():
         }), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@scenario_bp.route('/api/scenario', methods=['GET'])
+def get_scenarios():
+    try:
+        # Lấy tất cả kịch bản từ database
+        scenarios_cursor = mongo.db.scenarios.find()
+        output = []
+        for scenario in scenarios_cursor:
+            scenario_data = {
+                '_id': str(scenario['_id']),
+                'title': scenario.get('title'),
+                'content': scenario.get('content')
+            }
+            output.append(scenario_data)
+            
+        return jsonify(output), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
