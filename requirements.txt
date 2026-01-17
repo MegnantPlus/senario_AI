@@ -3,3 +3,4 @@ Flask-PyMongo
 dnspython
 gunicorn
 python-dotenv
+Flask-CORS
